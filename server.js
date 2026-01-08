@@ -7,13 +7,20 @@ const path = require("path");
 
 const app = express();
 
+/* ===== RENDER FIX: ENSURE UPLOADS FOLDER EXISTS ===== */
+const uploadDir = path.join(__dirname, "uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
 /* ================= MIDDLEWARE ================= */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 
-/* ================= ROOT ROUTE (IMPORTANT) ================= */
+/* ================= ROOT ROUTE ================= */
 app.get("/", (req, res) => {
   res.send("Application Form Server is Running 🚀");
 });
@@ -31,7 +38,7 @@ const Application = mongoose.model(
 
 /* ================= MULTER ================= */
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: uploadDir,
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
   }
@@ -89,8 +96,7 @@ app.post(
       /* -------- PHOTO -------- */
       if (req.files.photo?.[0]) {
         const photoPath = path.join(
-          __dirname,
-          "uploads",
+          uploadDir,
           req.files.photo[0].filename
         );
         doc.rect(450, 30, 100, 120).stroke();
@@ -181,13 +187,13 @@ app.post(
 
       doc.end();
     } catch (err) {
-      console.error(err);
+      console.error("SUBMIT ERROR:", err);
       res.status(500).send("Something went wrong");
     }
   }
 );
 
-/* ================= SERVER (RENDER FIX) ================= */
+/* ================= SERVER ================= */
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
