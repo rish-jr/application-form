@@ -7,29 +7,33 @@ const path = require("path");
 
 const app = express();
 
-/* ===== RENDER FIX: ENSURE UPLOADS FOLDER EXISTS ===== */
+/* ================= UPLOADS FOLDER (RENDER FIX) ================= */
 const uploadDir = path.join(__dirname, "uploads");
 
 if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
 /* ================= MIDDLEWARE ================= */
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-app.use("/uploads", express.static("uploads"));
+app.use("/uploads", express.static(uploadDir));
 
 /* ================= ROOT ROUTE ================= */
 app.get("/", (req, res) => {
   res.send("Application Form Server is Running 🚀");
 });
 
-/* ================= MONGODB ================= */
+/* ================= MONGODB CONNECTION (FIXED) ================= */
 mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch(err => console.log(err));
+  .connect(process.env.MONGODB_URI, {
+    serverSelectionTimeoutMS: 5000,
+  })
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err.message);
+  });
 
 const Application = mongoose.model(
   "applications",
@@ -41,7 +45,7 @@ const storage = multer.diskStorage({
   destination: uploadDir,
   filename: (req, file, cb) => {
     cb(null, Date.now() + "-" + file.originalname);
-  }
+  },
 });
 
 const fileFilter = (req, file, cb) => {
@@ -50,7 +54,11 @@ const fileFilter = (req, file, cb) => {
   else cb(new Error("Only JPG, PNG, PDF allowed"), false);
 };
 
-const upload = multer({ storage, fileFilter });
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+});
 
 /* ================= PDF HELPER ================= */
 function sectionTitle(doc, title) {
@@ -72,8 +80,8 @@ app.post(
       /* -------- SAVE TO DB -------- */
       await Application.create({
         ...req.body,
-        photo: req.files.photo?.[0]?.filename,
-        resume: req.files.resume?.[0]?.filename
+        photo: req.files?.photo?.[0]?.filename || "",
+        resume: req.files?.resume?.[0]?.filename || "",
       });
 
       /* -------- CREATE PDF -------- */
@@ -94,16 +102,15 @@ app.post(
       }
 
       /* -------- PHOTO -------- */
-      if (req.files.photo?.[0]) {
-        const photoPath = path.join(
-          uploadDir,
-          req.files.photo[0].filename
-        );
-        doc.rect(450, 30, 100, 120).stroke();
-        doc.image(photoPath, 455, 35, {
-          width: 90,
-          height: 110
-        });
+      if (req.files?.photo?.[0]) {
+        const photoPath = path.join(uploadDir, req.files.photo[0].filename);
+        if (fs.existsSync(photoPath)) {
+          doc.rect(450, 30, 100, 120).stroke();
+          doc.image(photoPath, 455, 35, {
+            width: 90,
+            height: 110,
+          });
+        }
       }
 
       /* -------- TITLE -------- */
@@ -116,40 +123,40 @@ app.post(
 
       doc
         .fontSize(11)
-        .text(`Full Name: ${req.body.fullname}`)
-        .text(`Email: ${req.body.email}`)
-        .text(`Phone: ${req.body.phone}`)
-        .text(`Address: ${req.body.address}`)
-        .text(`DOB: ${req.body.dob}`)
-        .text(`Aadhar No: ${req.body.aadhar}`)
-        .text(`Position: ${req.body.position}`)
-        .text(`Employment Type: ${req.body.employmentType}`)
-        .text(`Application Date: ${req.body.applicationDate}`);
+        .text(`Full Name: ${req.body.fullname || ""}`)
+        .text(`Email: ${req.body.email || ""}`)
+        .text(`Phone: ${req.body.phone || ""}`)
+        .text(`Address: ${req.body.address || ""}`)
+        .text(`DOB: ${req.body.dob || ""}`)
+        .text(`Aadhar No: ${req.body.aadhar || ""}`)
+        .text(`Position: ${req.body.position || ""}`)
+        .text(`Employment Type: ${req.body.employmentType || ""}`)
+        .text(`Application Date: ${req.body.applicationDate || ""}`);
 
       sectionTitle(doc, "Educational Background");
 
       doc
-        .text(`Degree: ${req.body.degree}`)
-        .text(`Institute: ${req.body.institute}`)
-        .text(`Year: ${req.body.year}`)
-        .text(`Grade: ${req.body.grade}`)
-        .text(`City: ${req.body.city}`);
+        .text(`Degree: ${req.body.degree || ""}`)
+        .text(`Institute: ${req.body.institute || ""}`)
+        .text(`Year: ${req.body.year || ""}`)
+        .text(`Grade: ${req.body.grade || ""}`)
+        .text(`City: ${req.body.city || ""}`);
 
       sectionTitle(doc, "Employment History");
 
       doc
-        .text(`Company: ${req.body.company}`)
-        .text(`Position: ${req.body.positionHistory}`)
-        .text(`Year: ${req.body.yearHistory}`)
-        .text(`Reason: ${req.body.reason}`);
+        .text(`Company: ${req.body.company || ""}`)
+        .text(`Position: ${req.body.positionHistory || ""}`)
+        .text(`Year: ${req.body.yearHistory || ""}`)
+        .text(`Reason: ${req.body.reason || ""}`);
 
       sectionTitle(doc, "Skills & Training");
 
       doc
-        .text(`Achievement: ${req.body.achievement}`)
-        .text(`Level: ${req.body.level}`)
-        .text(`Year: ${req.body.yearSkill}`)
-        .text(`Institute: ${req.body.skillInstitute}`);
+        .text(`Achievement: ${req.body.achievement || ""}`)
+        .text(`Level: ${req.body.level || ""}`)
+        .text(`Year: ${req.body.yearSkill || ""}`)
+        .text(`Institute: ${req.body.skillInstitute || ""}`);
 
       /* ================= PAGE 2 ================= */
       doc.addPage();
@@ -157,37 +164,37 @@ app.post(
       sectionTitle(doc, "Family Details");
 
       doc
-        .text(`Name: ${req.body.familyName}`)
-        .text(`Relationship: ${req.body.familyRelation}`)
-        .text(`Occupation: ${req.body.familyOccupation}`);
+        .text(`Name: ${req.body.familyName || ""}`)
+        .text(`Relationship: ${req.body.familyRelation || ""}`)
+        .text(`Occupation: ${req.body.familyOccupation || ""}`);
 
       sectionTitle(doc, "Emergency Contact");
 
       doc
-        .text(`Name: ${req.body.emergencyName}`)
-        .text(`Relationship: ${req.body.emergencyRelation}`)
-        .text(`Occupation: ${req.body.emergencyOccupation}`)
-        .text(`Qualification: ${req.body.emergencyQualification}`)
-        .text(`City: ${req.body.emergencyCity}`);
+        .text(`Name: ${req.body.emergencyName || ""}`)
+        .text(`Relationship: ${req.body.emergencyRelation || ""}`)
+        .text(`Occupation: ${req.body.emergencyOccupation || ""}`)
+        .text(`Qualification: ${req.body.emergencyQualification || ""}`)
+        .text(`City: ${req.body.emergencyCity || ""}`);
 
       sectionTitle(doc, "Joining Details");
 
       doc
-        .text(`Joining Date: ${req.body.joiningDate}`)
-        .text(`Fees: ${req.body.fees}`)
-        .text(`1st Installment: ${req.body.installment1}`)
-        .text(`2nd Installment: ${req.body.installment2}`)
-        .text(`3rd Installment: ${req.body.installment3}`);
+        .text(`Joining Date: ${req.body.joiningDate || ""}`)
+        .text(`Fees: ${req.body.fees || ""}`)
+        .text(`1st Installment: ${req.body.installment1 || ""}`)
+        .text(`2nd Installment: ${req.body.installment2 || ""}`)
+        .text(`3rd Installment: ${req.body.installment3 || ""}`);
 
       sectionTitle(doc, "Office Use");
 
       doc
-        .text(`Company Name: ${req.body.companyName}`)
-        .text(`Receiving Person: ${req.body.receivingPerson}`);
+        .text(`Company Name: ${req.body.companyName || ""}`)
+        .text(`Receiving Person: ${req.body.receivingPerson || ""}`);
 
       doc.end();
     } catch (err) {
-      console.error("SUBMIT ERROR:", err);
+      console.error("❌ SUBMIT ERROR:", err);
       res.status(500).send("Something went wrong");
     }
   }
@@ -197,5 +204,5 @@ app.post(
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
