@@ -63,7 +63,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
-  table-layout: fixed; /* important */
+  table-layout: fixed;
 }
 
 td, th {
@@ -74,7 +74,6 @@ td, th {
   text-align: left;
 }
 
-/* header alignment */
 th {
   text-align: center;
   font-weight: bold;
@@ -84,46 +83,37 @@ th {
 .section {
   font-weight: bold;
   background: #ddd;
-  text-align: left;
 }
 
 /* ================= INPUTS ================= */
 input[type="text"],
+input[type="email"],
 input[type="date"] {
   width: 100%;
   border: none;
   outline: none;
   background: transparent;
-  box-sizing: border-box;
   font-size: 13px;
+  box-sizing: border-box;
+}
+
+/* ================= WATERMARK ================= */
+input.watermark::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+  font-style: italic;
 }
 
 /* ================= EMPLOYMENT TYPE ================= */
 .employment-type {
   display: flex;
-  align-items: center;
   gap: 25px;
+  align-items: center;
 }
 
 .employment-type label {
   display: flex;
-  align-items: center;
   gap: 6px;
-  font-size: 13px;
-}
-
-.employment-type input {
-  margin: 0;
-}
-
-/* ================= FIX: EDUCATION TABLE ================= */
-table.education col {
-  width: 20%;
-}
-
-/* ================= FIX: EMERGENCY TABLE ================= */
-table.emergency col {
-  width: 20%;
+  align-items: center;
 }
 
 /* ================= FOOTER ================= */
@@ -136,7 +126,7 @@ table.emergency col {
 /* ================= BUTTON ================= */
 button {
   margin-top: 20px;
-  padding: 10px 25px;
+  padding: 10px 30px;
   font-size: 14px;
   cursor: pointer;
 }
