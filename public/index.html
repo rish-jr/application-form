@@ -21,7 +21,7 @@
 
     <div class="photo-box">
       Paste Photo Here
-      <input type="file" name="photo" accept="image/png,image/jpeg" required>
+      <input type="file" name="photo">
     </div>
   </div>
 
@@ -30,105 +30,118 @@
       <td>Date of Application</td>
       <td><input type="date" name="applicationDate"></td>
       <td>Position</td>
-      <td><input type="text" name="position"></td>
+      <td><input type="text" name="position" placeholder="Enter the position"></td>
     </tr>
 
     <tr>
       <td>Employment Type</td>
       <td colspan="3">
-        <label><input type="radio" name="employmentType"> Full-Time</label>
-        <label><input type="radio" name="employmentType"> Course</label>
-        <label><input type="radio" name="employmentType"> Intern</label>
+        <div class="employment-type">
+          <label><input type="radio" name="employmentType" value="Full-Time"> Full-Time</label>
+          <label><input type="radio" name="employmentType" value="Course"> Course</label>
+          <label><input type="radio" name="employmentType" value="Intern"> Intern</label>
+        </div>
       </td>
     </tr>
 
     <tr><td colspan="4" class="section">Personal Information</td></tr>
-
+    <tr><td>Full Name</td><td colspan="3"><input name="fullname" placeholder="Enter the full name"></td></tr>
+    <tr><td>Address</td><td colspan="3"><input name="address" placeholder="Enter your address"></td></tr>
     <tr>
-      <td>Full Name</td>
-      <td colspan="3">
-        <input type="text" name="fullname" class="watermark" placeholder="Enter the Full Name">
-      </td>
+      <td>Phone</td><td><input name="phone" placeholder="Enter phone number"></td>
+      <td>Email</td><td><input name="email" placeholder="Enter email"></td>
     </tr>
-
     <tr>
-      <td>Address</td>
-      <td colspan="3"><input type="text" name="address"></td>
-    </tr>
-
-    <tr>
-      <td>Phone</td>
-      <td><input type="text" name="phone"></td>
-      <td>Email</td>
-      <td><input type="email" name="email"></td>
-    </tr>
-
-    <tr>
-      <td>DOB</td>
-      <td><input type="date" name="dob"></td>
-      <td>Aadhar No</td>
-      <td><input type="text" name="aadhar"></td>
-    </tr>
-
-    <tr>
-      <td>Blood Group</td>
-      <td><input type="text" name="bloodGroup"></td>
-      <td>Years of Work</td>
-      <td><input type="text" name="yearsOfWork"></td>
-    </tr>
-
-    <tr>
-      <td>Marital Status</td>
-      <td colspan="3">
-        <label><input type="radio" name="maritalStatus"> Single</label>
-        <label><input type="radio" name="maritalStatus"> Married</label>
-      </td>
+      <td>DOB</td><td><input type="date" name="dob"></td>
+      <td>Aadhar No</td><td><input name="aadhar" placeholder="Enter Aadhar number"></td>
     </tr>
   </table>
 
-  <!-- EDUCATIONAL BACKGROUND -->
   <table>
     <tr><td colspan="5" class="section">Educational Background</td></tr>
     <tr>
-      <th>Degree</th>
-      <th>Institute</th>
+      <th>Degree / Course</th>
+      <th>University / Institute</th>
       <th>Year</th>
       <th>Grade</th>
       <th>City</th>
     </tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+    <!-- Original Row -->
+    <tr>
+      <td><input name="degree" style="width: 120px;" placeholder="Degree/Course"></td>
+      <td><input name="institute" style="width: 130px;" placeholder="Institute"></td>
+      <td><input name="year" style="width: 130px;" placeholder="Year"></td>
+      <td><input name="grade" style="width: 130px;" placeholder="Grade"></td>
+      <td><input name="city" style="width: 130px;" placeholder="City"></td>
+    </tr>
+    <!-- Extra 2 Rows -->
+    <tr>
+      <td><input name="degree2" style="width: 120px;" placeholder="Degree/Course"></td>
+      <td><input name="institute2" style="width: 130px;" placeholder="Institute"></td>
+      <td><input name="year2" style="width: 130px;" placeholder="Year"></td>
+      <td><input name="grade2" style="width: 130px;" placeholder="Grade"></td>
+      <td><input name="city2" style="width: 130px;" placeholder="City"></td>
+    </tr>
+    <tr>
+      <td><input name="degree3" style="width: 120px;" placeholder="Degree/Course"></td>
+      <td><input name="institute3" style="width: 130px;" placeholder="Institute"></td>
+      <td><input name="year3" style="width: 130px;" placeholder="Year"></td>
+      <td><input name="grade3" style="width: 130px;" placeholder="Grade"></td>
+      <td><input name="city3" style="width: 130px;" placeholder="City"></td>
+    </tr>
   </table>
 
-  <!-- EMPLOYMENT HISTORY -->
   <table>
     <tr><td colspan="4" class="section">Employment History</td></tr>
+    <tr><th>Company</th><th>Position</th><th>Year</th><th>Reason</th></tr>
     <tr>
-      <th>Company</th>
-      <th>Position</th>
-      <th>Year</th>
-      <th>Reason</th>
+      <td><input name="company" placeholder="Company"></td>
+      <td><input name="positionHistory" placeholder="Position"></td>
+      <td><input name="yearHistory" placeholder="Year"></td>
+      <td><input name="reason" placeholder="Reason"></td>
     </tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+    <tr>
+      <td><input name="company2" placeholder="Company"></td>
+      <td><input name="positionHistory2" placeholder="Position"></td>
+      <td><input name="yearHistory2" placeholder="Year"></td>
+      <td><input name="reason2" placeholder="Reason"></td>
+    </tr>
+    <tr>
+      <td><input name="company3" placeholder="Company"></td>
+      <td><input name="positionHistory3" placeholder="Position"></td>
+      <td><input name="yearHistory3" placeholder="Year"></td>
+      <td><input name="reason3" placeholder="Reason"></td>
+    </tr>
   </table>
 
-  <!-- ✅ SKILLS & TRAINING (ADDED) -->
   <table>
     <tr><td colspan="4" class="section">Skills & Training</td></tr>
+    <tr><th>Achievement</th><th>Level</th><th>Year</th><th>Institute</th></tr>
     <tr>
-      <th>Skill / Training</th>
-      <th>Level</th>
-      <th>Year</th>
-      <th>Institute</th>
+      <td><input name="achievement" placeholder="Achievement"></td>
+      <td><input name="level" placeholder="Level"></td>
+      <td><input name="yearSkill" placeholder="Year"></td>
+      <td><input name="skillInstitute" placeholder="Institute"></td>
     </tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+    <tr>
+      <td><input name="achievement2" placeholder="Achievement"></td>
+      <td><input name="level2" placeholder="Level"></td>
+      <td><input name="yearSkill2" placeholder="Year"></td>
+      <td><input name="skillInstitute2" placeholder="Institute"></td>
+    </tr>
+    <tr>
+      <td><input name="achievement3" placeholder="Achievement"></td>
+      <td><input name="level3" placeholder="Level"></td>
+      <td><input name="yearSkill3" placeholder="Year"></td>
+      <td><input name="skillInstitute3" placeholder="Institute"></td>
+    </tr>
   </table>
+
+  <div class="footer">
+    <p>Attach your resume and portfolio to this job application form.</p>
+    <p>No 20, 6 School Street, Jafferkhanpet, Chennai-600083</p>
+    <p>+91 7397593704 | info@7siq.com | www.7siq.com</p>
+  </div>
 
 </div>
 
@@ -136,7 +149,7 @@
 <div class="page">
 
   <div class="header">
-    <img src="/logo2.jpeg">
+    <img src="/logo2.jpeg" alt="Logo">
     <div class="company">
       <h1>7S IQ PRIVATE LIMITED</h1>
       <h2 class="form-title">Application Form</h2>
@@ -144,21 +157,26 @@
     <div></div>
   </div>
 
-  <!-- FAMILY DETAILS -->
   <table>
     <tr><td colspan="3" class="section">Family Details</td></tr>
+    <tr><th>Name</th><th>Relationship</th><th>Occupation</th></tr>
     <tr>
-      <th>Name</th>
-      <th>Relationship</th>
-      <th>Occupation</th>
+      <td><input name="familyName" placeholder="Name"></td>
+      <td><input name="familyRelation" placeholder="Relationship"></td>
+      <td><input name="familyOccupation" placeholder="Occupation"></td>
     </tr>
-    <tr><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td></tr>
+    <tr>
+      <td><input name="familyName2" placeholder="Name"></td>
+      <td><input name="familyRelation2" placeholder="Relationship"></td>
+      <td><input name="familyOccupation2" placeholder="Occupation"></td>
+    </tr>
+    <tr>
+      <td><input name="familyName3" placeholder="Name"></td>
+      <td><input name="familyRelation3" placeholder="Relationship"></td>
+      <td><input name="familyOccupation3" placeholder="Occupation"></td>
+    </tr>
   </table>
 
-  <!-- EMERGENCY CONTACT -->
   <table>
     <tr><td colspan="5" class="section">Emergency Contact</td></tr>
     <tr>
@@ -168,52 +186,48 @@
       <th>Qualification</th>
       <th>City</th>
     </tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
-    <tr><td><input></td><td><input></td><td><input></td><td><input></td><td><input></td></tr>
+    <tr>
+      <td><input name="emergencyName" style="width: 130px;" placeholder="Name"></td>
+      <td><input name="emergencyRelation" style="width: 130px;" placeholder="Relation"></td>
+      <td><input name="emergencyOccupation" style="width: 130px;" placeholder="Occupation"></td>
+      <td><input name="emergencyQualification" style="width: 130px;" placeholder="Qualification"></td>
+      <td><input name="emergencyCity" style="width: 130px;" placeholder="City"></td>
+    </tr>
+    <tr>
+      <td><input name="emergencyName2" style="width: 130px;" placeholder="Name"></td>
+      <td><input name="emergencyRelation2" style="width: 130px;" placeholder="Relation"></td>
+      <td><input name="emergencyOccupation2" style="width: 130px;" placeholder="Occupation"></td>
+      <td><input name="emergencyQualification2" style="width: 130px;" placeholder="Qualification"></td>
+      <td><input name="emergencyCity2" style="width: 130px;" placeholder="City"></td>
+    </tr>
+    <tr>
+      <td><input name="emergencyName3" style="width: 130px;" placeholder="Name"></td>
+      <td><input name="emergencyRelation3" style="width: 130px;" placeholder="Relation"></td>
+      <td><input name="emergencyOccupation3" style="width: 130px;" placeholder="Occupation"></td>
+      <td><input name="emergencyQualification3" style="width: 130px;" placeholder="Qualification"></td>
+      <td><input name="emergencyCity3" style="width: 130px;" placeholder="City"></td>
+    </tr>
   </table>
-
-  <label>Resume</label>
-  <input type="file" name="resume" accept="application/pdf">
-
-</div>
-
-<!-- ================= PAGE 3 ================= -->
-<div class="page">
-
-  <div class="header">
-    <img src="/logo2.jpeg">
-    <div class="company">
-      <h1>7S IQ PRIVATE LIMITED</h1>
-      <h2 class="form-title">Application Form</h2>
-    </div>
-    <div></div>
-  </div>
 
   <table>
     <tr><td colspan="2" class="section">Joining Details</td></tr>
-    <tr><td>Joining Date</td><td><input type="date"></td></tr>
-    <tr><td>Fees</td><td><input></td></tr>
-    <tr><td>First Installment Date</td><td><input type="date"></td></tr>
-    <tr><td>Second Installment Date</td><td><input type="date"></td></tr>
-    <tr><td>Third Installment Date</td><td><input type="date"></td></tr>
+    <tr><td>Joining Date</td><td><input type="date" name="joiningDate"></td></tr>
+    <tr><td>Fees</td><td><input name="fees"></td></tr>
+    <tr><td>First Installment Date</td><td><input type="date" name="installment1"></td></tr>
+    <tr><td>Second Installment Date</td><td><input type="date" name="installment2"></td></tr>
+    <tr><td>Third Installment Date</td><td><input type="date" name="installment3"></td></tr>
   </table>
 
   <table>
-    <tr><td>Company Name</td><td><input></td></tr>
-    <tr><td>Receiving Person</td><td><input></td></tr>
+    <tr><td>Company Name</td><td><input name="companyName"></td></tr>
+    <tr><td>Receiving Person</td><td><input name="receivingPerson"></td></tr>
     <tr><td>Receiving Person Signature</td><td></td></tr>
     <tr><td>HR Name & Signature</td><td></td></tr>
   </table>
 
-<!-- ✅ ADDED CONTENT (AS REQUESTED) -->
-  <div style="margin-top:15px; font-size:12px; text-align:center; line-height:1.6;">
-    Send it via email or hand it over to the Human Resource Office at<br>
-    No 20, 6 school street, Jafferkhanpet, Chennai-600083<br><br>
-    +91 7397593704 &nbsp;|&nbsp; info@7siq.com &nbsp;|&nbsp; www.7siq.com
-  </div>
+  <label>Resume</label>
+  <input type="file" name="resume">
 
-  <!-- ✅ SUBMIT BUTTON ONLY HERE -->
   <button type="submit">SUBMIT</button>
 
 </div>
